@@ -1,0 +1,1 @@
+Interactive Two Pointer & Sliding Window Visualizer with dark theme and animated step-by-step pointer movement.
