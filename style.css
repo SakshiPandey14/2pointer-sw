@@ -1,51 +1,69 @@
-style.css
+/* Full page setup */
 body {
-    background-color: #0d1b2a;
-    color: #e0e1dd;
+    margin: 0;
+    padding: 0;
+    background-color: #000000; /* pure black */
+    color: #ffffff;
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
-    padding: 20px;
+    align-items: center;
+    height: 100vh; /* full height */
 }
 
+/* Centered container */
 .container {
-    width: 90%;
-    max-width: 800px;
+    background-color: #111111; /* dark grey */
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
     text-align: center;
+    width: 90%;
+    max-width: 700px;
 }
 
+/* Heading */
 h1 {
-    color: #f0f0f0;
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 24px;
 }
 
+/* Input box */
 input {
     width: 70%;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 12px;
+    margin-bottom: 15px;
     border-radius: 5px;
-    border: none;
+    border: 1px solid #555555;
+    background-color: #222222;
+    color: #ffffff;
     font-size: 16px;
 }
 
+/* Buttons */
 button {
     padding: 10px 20px;
     margin: 5px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #1b263b;
-    color: #e0e1dd;
+    background-color: #333333;
+    color: #ffffff;
     font-weight: bold;
+    transition: all 0.3s ease;
 }
 
 button:hover {
-    background-color: #415a77;
+    background-color: #555555;
 }
 
+/* Visual area */
 .visual-area {
     margin-top: 20px;
 }
 
+/* Array container */
 #arrayContainer {
     display: flex;
     justify-content: center;
@@ -54,32 +72,44 @@ button:hover {
     margin: 20px 0;
 }
 
+/* Array elements */
 .array-element {
     width: 50px;
     height: 50px;
-    background-color: #1b263b;
+    background-color: #222222;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 5px;
     font-weight: bold;
     font-size: 16px;
-    transition: background-color 0.3s, transform 0.3s;
+    transition: all 0.3s ease;
+    color: #ffffff;
 }
 
+/* Two pointer highlights */
 .pointer-left {
-    background-color: #e63946 !important;
+    background-color: #e63946 !important; /* red */
 }
 
 .pointer-right {
-    background-color: #f1faee !important;
+    background-color: #f1faee !important; /* off-white */
+    color: #000000 !important;
+}
+
+/* Sliding window highlight */
+.pointer-window {
+    background-color: #457b9d !important; /* blue */
+    color: #ffffff !important;
 }
 
 .pointer-current {
     transform: scale(1.3);
 }
 
+/* Info panel */
 #info {
     margin-top: 10px;
     font-size: 16px;
+    color: #cccccc;
 }
