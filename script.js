@@ -1,72 +1,97 @@
-let array = [];
-let left = 0;
-let right = 0;
-let intervalId = null;
-let windowSize = 3; // default sliding window
+let arr = [];
+let interval;
+let maxSum = 0;
 
-function startVisualization() {
+function start() {
+    clearInterval(interval);
     const input = document.getElementById("arrayInput").value;
-    if (!input) return alert("Please enter an array!");
-    array = input.split(",").map(Number);
-    left = 0;
-    right = array.length - 1;
-    clearInterval(intervalId);
-    renderArray();
-    document.getElementById("info").innerText = "Visualization ready. Choose an animation.";
+    arr = input.split(",").map(Number);
+    render();
+    document.getElementById("info").innerText = "Ready to visualize.";
 }
 
-// Render array with optional pointers or window
-function renderArray(leftPointer = null, rightPointer = null, windowStart = null, windowEnd = null) {
+function render(left = -1, right = -1, wStart = -1, wEnd = -1) {
     const container = document.getElementById("arrayContainer");
     container.innerHTML = "";
-    for (let i = 0; i < array.length; i++) {
-        const div = document.createElement("div");
-        div.className = "array-element";
-        div.innerText = array[i];
 
-        if (i === leftPointer) div.classList.add("pointer-left");
-        if (i === rightPointer) div.classList.add("pointer-right");
-        if (windowStart !== null && windowEnd !== null && i >= windowStart && i < windowEnd) div.classList.add("pointer-window");
+    arr.forEach((val, i) => {
+        const div = document.createElement("div");
+        div.className = "box";
+        div.innerText = val;
+
+        if (i === left) div.classList.add("left");
+        if (i === right) div.classList.add("right");
+        if (i >= wStart && i <= wEnd) div.classList.add("window");
 
         container.appendChild(div);
-    }
+    });
 }
 
-// Animate Two Pointer
-function startTwoPointer() {
-    if (array.length === 0) return alert("Enter array first!");
-    clearInterval(intervalId);
-    left = 0;
-    right = array.length - 1;
+/* ---------------- TWO POINTER ---------------- */
 
-    intervalId = setInterval(() => {
-        if (left <= right) {
-            renderArray(left, right);
-            document.getElementById("info").innerText = `Two Pointer | Left: ${left}, Right: ${right}, Sum: ${array[left] + array[right]}`;
+function runTwoPointer() {
+    clearInterval(interval);
+    let left = 0;
+    let right = arr.length - 1;
+    const target = Number(document.getElementById("targetInput").value);
+
+    interval = setInterval(() => {
+        if (left >= right) {
+            document.getElementById("info").innerText = "Pair not found.";
+            clearInterval(interval);
+            return;
+        }
+
+        const sum = arr[left] + arr[right];
+        render(left, right);
+        document.getElementById("info").innerText =
+            `Checking: ${arr[left]} + ${arr[right]} = ${sum}`;
+
+        if (sum === target) {
+            document.getElementById("info").innerText =
+                `Pair Found at indices ${left} & ${right}`;
+            clearInterval(interval);
+        } else if (sum < target) {
             left++;
-            right--;
         } else {
-            clearInterval(intervalId);
-            document.getElementById("info").innerText += " | Finished!";
+            right--;
         }
     }, 800);
 }
 
-// Animate Sliding Window
-function startSlidingWindow() {
-    if (array.length === 0) return alert("Enter array first!");
-    clearInterval(intervalId);
-    left = 0;
+/* ---------------- SLIDING WINDOW ---------------- */
 
-    intervalId = setInterval(() => {
-        if (left + windowSize <= array.length) {
-            const sum = array.slice(left, left + windowSize).reduce((a, b) => a + b, 0);
-            renderArray(null, null, left, left + windowSize);
-            document.getElementById("info").innerText = `Sliding Window | Window [${left}-${left + windowSize - 1}] Sum: ${sum}`;
-            left++;
-        } else {
-            clearInterval(intervalId);
-            document.getElementById("info").innerText += " | Finished!";
+function runSlidingWindow() {
+    clearInterval(interval);
+    let k = Number(document.getElementById("windowInput").value);
+    let start = 0;
+    let sum = 0;
+    maxSum = -Infinity;
+
+    for (let i = 0; i < k; i++) sum += arr[i];
+    maxSum = sum;
+
+    let end = k - 1;
+
+    interval = setInterval(() => {
+        if (end >= arr.length) {
+            document.getElementById("info").innerText =
+                `Maximum Subarray Sum = ${maxSum}`;
+            clearInterval(interval);
+            return;
+        }
+
+        render(-1, -1, start, end);
+        document.getElementById("info").innerText =
+            `Window Sum: ${sum} | Max Sum: ${maxSum}`;
+
+        sum -= arr[start];
+        start++;
+        end++;
+
+        if (end < arr.length) {
+            sum += arr[end];
+            maxSum = Math.max(maxSum, sum);
         }
     }, 800);
 }
